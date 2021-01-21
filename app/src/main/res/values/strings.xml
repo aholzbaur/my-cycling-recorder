@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">MyCyclingRecorder</string>
+    <string name="bluetooth_status">Bluetooth status:</string>
+    <string name="bluetooth_status_off">Off</string>
+    <string name="bluetooth_status_on">On</string>
+    <string name="active_sensors">Active sensors:</string>
+    <string name="current_values">Current values:</string>
+    <string name="button_start">Start</string>
+    <string name="button_pause">Pause</string>
+    <string name="button_resume">Resume</string>
+    <string name="button_finish">Finish</string>
+    <string name="current_status_stopped">Stopped</string>
+    <string name="current_status_paused">Paused</string>
+    <string name="current_status_recording">Recording</string>
 </resources>
