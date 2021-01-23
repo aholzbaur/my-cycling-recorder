@@ -1,15 +1,21 @@
 <resources>
     <string name="app_name">MyCyclingRecorder</string>
-    <string name="bluetooth_status">Bluetooth status:</string>
-    <string name="bluetooth_status_off">Off</string>
-    <string name="bluetooth_status_on">On</string>
-    <string name="active_sensors">Active sensors:</string>
-    <string name="current_values">Current values:</string>
+
+    <!-- Strings for MainActivity -->
+    <string name="bt_status_title">Bluetooth status:</string>
+    <string name="bt_status_on">On</string>
+    <string name="bt_status_off">Off</string>
+    <string name="active_sensors_title">Active sensors:</string>
     <string name="button_start">Start</string>
-    <string name="button_pause">Pause</string>
-    <string name="button_resume">Resume</string>
-    <string name="button_finish">Finish</string>
-    <string name="current_status_stopped">Stopped</string>
-    <string name="current_status_paused">Paused</string>
-    <string name="current_status_recording">Recording</string>
+    <string name="button_config_sensors">Configure sensors</string>
+
+    <!-- Strings for CloseAppOnErrorDialog -->
+    <string name="dialog_close_app_bt_not_supported">Bluetooth is not supported on this device!</string>
+
+    <!-- Strings for ConfigSensorsActivity -->
+    <string name="avail_bt_devices_title">Available Bluetooth devices:</string>
+    <string name="bt_disabled_hint">Bluetooth is disabled!</string>
+    <string name="button_enable_bt">Enable Bluetooth</string>
+    <string name="device_name_title">Device name</string>
+    <string name="device_as_sensor_title">Use as sensor</string>
 </resources>

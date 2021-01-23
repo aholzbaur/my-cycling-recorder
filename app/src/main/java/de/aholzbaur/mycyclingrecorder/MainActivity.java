@@ -1,5 +1,10 @@
 package de.aholzbaur.mycyclingrecorder;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,86 +12,84 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-enum Status {
-    STOPPED,
-    PAUSED,
-    RECORDING
-}
+import de.aholzbaur.mycyclingrecorder.dialogs.CloseAppOnErrorDialog;
 
 public class MainActivity extends AppCompatActivity {
-    TextView textBluetoothStatusValue = null;
-    TextView textCurrentStatus = null;
+    private TextView textBtStatusValue = null;
 
-    Button buttonStart = null;
-    Button buttonPauseResume = null;
-    Button buttonStop = null;
+    private Button buttonConfigSensors = null;
+    private Button buttonStart = null;
 
-    Status currentStatus = Status.STOPPED;
+    private BluetoothAdapter bluetoothAdapter = null;
+
+    private BroadcastReceiver btStateReceiver = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
 
-        this.initButtons();
+        this.getItems();
 
-        this.initText();
+        this.checkBtOnStart();
     }
 
-    void initButtons() {
-        this.buttonStart = (Button) this.findViewById(R.id.buttonStart);
-        this.buttonStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startRecording();
-            }
-        });
+    private void getItems() {
+        this.textBtStatusValue = this.findViewById(R.id.textBtStatusValue);
 
-        this.buttonPauseResume = (Button) this.findViewById(R.id.buttonPauseResume);
-        this.buttonPauseResume.setOnClickListener(new View.OnClickListener() {
+        this.buttonConfigSensors = this.findViewById(R.id.buttonConfigSensors);
+        this.buttonConfigSensors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pauseResumeRecording();
+                openConfigSensorsView();
             }
         });
-
-        this.buttonStop = (Button) this.findViewById(R.id.buttonStop);
-        this.buttonStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopRecording();
-            }
-        });
+        this.buttonStart = this.findViewById(R.id.buttonStart);
     }
 
-    void initText() {
-        this.textBluetoothStatusValue = (TextView) this.findViewById(R.id.textBluetoothStatusValue);
-        this.textCurrentStatus = (TextView) this.findViewById(R.id.textCurrentStatus);
-    }
+    private void checkBtOnStart() {
+        this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-    void startRecording() {
-        if (this.currentStatus.equals(Status.STOPPED)) {
-            this.currentStatus = Status.RECORDING;
-            this.textCurrentStatus.setText(R.string.current_status_recording);
+        if (this.bluetoothAdapter == null) {
+            CloseAppOnErrorDialog d = new CloseAppOnErrorDialog(getResources().getString(R.string.dialog_close_app_bt_not_supported), this);
+            d.show(getSupportFragmentManager(), null);
+        } else {
+            this.configBtStateReceiver();
+            this.checkBtStatus();
         }
     }
 
-    void pauseResumeRecording() {
-        if (this.currentStatus.equals(Status.RECORDING)) {
-            this.currentStatus = Status.PAUSED;
-            this.textCurrentStatus.setText(R.string.current_status_paused);
-            this.buttonPauseResume.setText(R.string.button_resume);
-        } else if (this.currentStatus.equals(Status.PAUSED)) {
-            this.currentStatus = Status.RECORDING;
-            this.textCurrentStatus.setText(R.string.current_status_recording);
-            this.buttonPauseResume.setText(R.string.button_pause);
+    private void configBtStateReceiver() {
+        this.btStateReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+
+                if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                    checkBtStatus();
+                }
+            }
+        };
+        this.registerReceiver(this.btStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
+    }
+
+    private void checkBtStatus() {
+        if (this.bluetoothAdapter.isEnabled() == true) {
+            this.textBtStatusValue.setText(R.string.bt_status_on);
+        } else {
+            this.textBtStatusValue.setText(R.string.bt_status_off);
         }
     }
 
-    void stopRecording() {
-        if (this.currentStatus.equals(Status.PAUSED) || this.currentStatus.equals(Status.RECORDING)) {
-            this.currentStatus = Status.STOPPED;
-            this.textCurrentStatus.setText(R.string.current_status_stopped);
-        }
+    private void openConfigSensorsView() {
+        Intent intentConfigSensors = new Intent(this, ConfigSensorsActivity.class);
+        this.startActivity(intentConfigSensors);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        this.unregisterReceiver(this.btStateReceiver);
     }
 }
