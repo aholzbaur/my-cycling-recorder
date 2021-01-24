@@ -65,7 +65,7 @@
         android:id="@+id/scrollAvailBtDeviceList"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:layout_marginTop="@dimen/spacing_inner_very_small"
+        android:layout_marginTop="@dimen/spacing_inner_small"
         app:layout_constraintEnd_toEndOf="@+id/textBtDeviceAsSensor"
         app:layout_constraintStart_toStartOf="@+id/textBtDeviceNameTitle"
         app:layout_constraintTop_toBottomOf="@+id/textBtDeviceNameTitle">
@@ -75,10 +75,99 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            android:paddingStart="@dimen/spacing_inner"
+            android:paddingEnd="@dimen/spacing_inner">
 
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/buttonBtSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner"
+        android:text="@string/button_bt_settings"
+        android:textAppearance="@style/Buttons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollAvailBtDeviceList" />
+
+    <TextView
+        android:id="@+id/textAddSensorsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner"
+        android:text="Additional sensors:"
+        android:textAppearance="@style/Titles"
+        app:layout_constraintStart_toStartOf="@+id/scrollAvailBtDeviceList"
+        app:layout_constraintTop_toBottomOf="@+id/buttonBtSettings" />
+
+    <TextView
+        android:id="@+id/textGpsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner_small"
+        android:text="GPS"
+        android:textAppearance="@style/Text"
+        app:layout_constraintStart_toStartOf="@+id/textAddSensorsTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textAddSensorsTitle" />
+
+    <TextView
+        android:id="@+id/textUseGpsLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_inner"
+        android:layout_marginTop="@dimen/spacing_inner_small"
+        android:text="Use location"
+        android:textAppearance="@style/ListText"
+        app:layout_constraintStart_toStartOf="@+id/textGpsTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textGpsTitle" />
+
+    <Switch
+        android:id="@+id/switchUseGpsLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/ListText"
+        app:layout_constraintBottom_toBottomOf="@+id/textUseGpsLocation"
+        app:layout_constraintEnd_toEndOf="@+id/scrollAvailBtDeviceList"
+        app:layout_constraintTop_toTopOf="@+id/textUseGpsLocation" />
+
+    <TextView
+        android:id="@+id/textUseGpsSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner_small"
+        android:text="Use GPS for speed"
+        android:textAppearance="@style/ListText"
+        app:layout_constraintStart_toStartOf="@+id/textUseGpsLocation"
+        app:layout_constraintTop_toBottomOf="@+id/textUseGpsLocation" />
+
+    <Switch
+        android:id="@+id/switchUseGpsSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/ListText"
+        app:layout_constraintBottom_toBottomOf="@+id/textUseGpsSpeed"
+        app:layout_constraintEnd_toEndOf="@+id/switchUseGpsLocation"
+        app:layout_constraintTop_toTopOf="@+id/textUseGpsSpeed" />
+
+    <TextView
+        android:id="@+id/textUseGpsDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner_small"
+        android:text="Use GPS for distance"
+        android:textAppearance="@style/ListText"
+        app:layout_constraintStart_toStartOf="@+id/textUseGpsSpeed"
+        app:layout_constraintTop_toBottomOf="@+id/textUseGpsSpeed" />
+
+    <Switch
+        android:id="@+id/switchUseGpsDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/ListText"
+        app:layout_constraintBottom_toBottomOf="@+id/textUseGpsDistance"
+        app:layout_constraintEnd_toEndOf="@+id/switchUseGpsSpeed"
+        app:layout_constraintTop_toTopOf="@+id/textUseGpsDistance" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,7 @@
 <resources>
     <dimen name="spacing_outer">24dp</dimen>
     <dimen name="spacing_inner">20dp</dimen>
-    <dimen name="spacing_inner_small">14dp</dimen>
-    <dimen name="spacing_inner_very_small">7dp</dimen>
+    <dimen name="spacing_inner_small">12dp</dimen>
     <dimen name="spacing_bottom">40dp</dimen>
+    <dimen name="avail_devices_list_max_height">250dp</dimen>
 </resources>

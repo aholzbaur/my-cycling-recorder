@@ -13,7 +13,7 @@
     </style>
 
     <style name="ListText" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">16dp</item>
     </style>
 
     <style name="Buttons" parent="TextAppearance.AppCompat.Large">

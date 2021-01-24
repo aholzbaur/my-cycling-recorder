@@ -3,14 +3,17 @@ package de.aholzbaur.mycyclingrecorder;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,11 +24,33 @@ public class ConfigSensorsActivity extends AppCompatActivity {
     private TextView textBtDisabledHint = null;
     private TextView textBtDeviceNameTitle = null;
     private TextView textBtDeviceAsSensor = null;
+    private TextView textAddSensorsTitle = null;
+    private TextView textGpsTitle = null;
+    private TextView textUseGpsLocation = null;
+    private TextView textUseGpsSpeed = null;
+    private TextView textUseGpsDistance = null;
+
+    private Switch switchUseGpsLocation = null;
+    private Switch switchUseGpsSpeed = null;
+    private Switch switchUseGpsDistance = null;
 
     private ScrollView scrollAvailBtDeviceList = null;
     private LinearLayout scrollAvailBtDeviceListLayout = null;
 
     private Button buttonEnableBt = null;
+    private View.OnClickListener buttonEnableBtOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showEnableBtIntent();
+        }
+    };
+    private Button buttonBtSettings = null;
+    private View.OnClickListener buttonBtSettingsOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showBtSettings();
+        }
+    };
 
     private static final int INTENT_ACTION_ENABLE_BLUETOOTH = 1;
 
@@ -49,17 +74,23 @@ public class ConfigSensorsActivity extends AppCompatActivity {
         this.textBtDisabledHint = this.findViewById(R.id.textBtDisabledHint);
         this.textBtDeviceNameTitle = this.findViewById(R.id.textBtDeviceNameTitle);
         this.textBtDeviceAsSensor = this.findViewById(R.id.textBtDeviceAsSensor);
+        this.textAddSensorsTitle = this.findViewById(R.id.textAddSensorsTitle);
+        this.textGpsTitle = this.findViewById(R.id.textGpsTitle);
+        this.textUseGpsLocation = this.findViewById(R.id.textUseGpsLocation);
+        this.textUseGpsSpeed = this.findViewById(R.id.textUseGpsSpeed);
+        this.textUseGpsDistance = this.findViewById(R.id.textUseGpsDistance);
+
+        this.switchUseGpsLocation = this.findViewById(R.id.switchUseGpsLocation);
+        this.switchUseGpsSpeed = this.findViewById(R.id.switchUseGpsSpeed);
+        this.switchUseGpsDistance = this.findViewById(R.id.switchUseGpsDistance);
 
         this.scrollAvailBtDeviceList = this.findViewById(R.id.scrollAvailBtDeviceList);
         this.scrollAvailBtDeviceListLayout = this.findViewById(R.id.scrollAvailBtDeviceListLayout);
 
         this.buttonEnableBt = this.findViewById(R.id.buttonEnableBt);
-        this.buttonEnableBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showEnableBtIntent();
-            }
-        });
+        this.buttonEnableBt.setOnClickListener(this.buttonEnableBtOnClickListener);
+        this.buttonBtSettings = this.findViewById(R.id.buttonBtSettings);
+        this.buttonBtSettings.setOnClickListener(this.buttonBtSettingsOnClickListener);
     }
 
     private void configBtSensorsViews() {
@@ -71,12 +102,30 @@ public class ConfigSensorsActivity extends AppCompatActivity {
             this.textBtDeviceNameTitle.setVisibility(View.GONE);
             this.textBtDeviceAsSensor.setVisibility(View.GONE);
             this.scrollAvailBtDeviceList.setVisibility(View.GONE);
+            this.buttonBtSettings.setVisibility(View.GONE);
+            this.textAddSensorsTitle.setVisibility(View.GONE);
+            this.textGpsTitle.setVisibility(View.GONE);
+            this.textUseGpsLocation.setVisibility(View.GONE);
+            this.textUseGpsSpeed.setVisibility(View.GONE);
+            this.textUseGpsDistance.setVisibility(View.GONE);
+            this.switchUseGpsLocation.setVisibility(View.GONE);
+            this.switchUseGpsSpeed.setVisibility(View.GONE);
+            this.switchUseGpsDistance.setVisibility(View.GONE);
         } else {
             this.textBtDisabledHint.setVisibility(View.GONE);
             this.buttonEnableBt.setVisibility(View.GONE);
             this.textBtDeviceNameTitle.setVisibility(View.VISIBLE);
             this.textBtDeviceAsSensor.setVisibility(View.VISIBLE);
             this.scrollAvailBtDeviceList.setVisibility(View.VISIBLE);
+            this.buttonBtSettings.setVisibility(View.VISIBLE);
+            this.textAddSensorsTitle.setVisibility(View.VISIBLE);
+            this.textGpsTitle.setVisibility(View.VISIBLE);
+            this.textUseGpsLocation.setVisibility(View.VISIBLE);
+            this.textUseGpsSpeed.setVisibility(View.VISIBLE);
+            this.textUseGpsDistance.setVisibility(View.VISIBLE);
+            this.switchUseGpsLocation.setVisibility(View.VISIBLE);
+            this.switchUseGpsSpeed.setVisibility(View.VISIBLE);
+            this.switchUseGpsDistance.setVisibility(View.VISIBLE);
 
             fillAvailBtDevicesList();
         }
@@ -98,6 +147,9 @@ public class ConfigSensorsActivity extends AppCompatActivity {
             }
         } else {
             LinearLayout emptyListItem = (LinearLayout) this.getLayoutInflater().inflate(R.layout.avail_bt_device_list_item, null);
+            CheckBox emptyListItemCheckbox = (CheckBox) emptyListItem.getChildAt(2);
+
+            emptyListItemCheckbox.setVisibility(View.INVISIBLE);
 
             this.scrollAvailBtDeviceListLayout.addView(emptyListItem);
         }
@@ -120,7 +172,16 @@ public class ConfigSensorsActivity extends AppCompatActivity {
 
     private void showEnableBtIntent() {
         Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        
+
         this.startActivity(enableBluetoothIntent);
+    }
+
+    private void showBtSettings() {
+        Intent openBtSettingsIntent = new Intent(Intent.ACTION_MAIN, null);
+        openBtSettingsIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        ComponentName openBtSettingsCn = new ComponentName("com.android.settings", "com.android.settings.bluetooth.BluetoothSettings");
+        openBtSettingsIntent.setComponent(openBtSettingsCn);
+        openBtSettingsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(openBtSettingsIntent);
     }
 }
