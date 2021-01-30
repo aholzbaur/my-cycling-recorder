@@ -1,4 +1,4 @@
-package de.aholzbaur.mycyclingrecorder;
+package de.aholzbaur.mycyclingrecorder.activities;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import de.aholzbaur.mycyclingrecorder.R;
 import de.aholzbaur.mycyclingrecorder.dialogs.CloseAppOnErrorDialog;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +23,14 @@ public class MainActivity extends AppCompatActivity {
 
     private BluetoothAdapter bluetoothAdapter = null;
 
-    private BroadcastReceiver btStateReceiver = null;
+    private BroadcastReceiver btStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                checkBtStatus();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         this.buttonStart = this.findViewById(R.id.buttonStart);
+        this.buttonStart.setEnabled(false);
     }
 
     private void checkBtOnStart() {
@@ -54,23 +63,9 @@ public class MainActivity extends AppCompatActivity {
             CloseAppOnErrorDialog d = new CloseAppOnErrorDialog(getResources().getString(R.string.dialog_close_app_bt_not_supported), this);
             d.show(getSupportFragmentManager(), null);
         } else {
-            this.configBtStateReceiver();
+            this.registerReceiver(this.btStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
             this.checkBtStatus();
         }
-    }
-
-    private void configBtStateReceiver() {
-        this.btStateReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
-
-                if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                    checkBtStatus();
-                }
-            }
-        };
-        this.registerReceiver(this.btStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
     }
 
     private void checkBtStatus() {

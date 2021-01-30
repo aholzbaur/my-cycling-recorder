@@ -64,7 +64,7 @@
     <ScrollView
         android:id="@+id/scrollAvailBtDeviceList"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:layout_marginTop="@dimen/spacing_inner_small"
         app:layout_constraintEnd_toEndOf="@+id/textBtDeviceAsSensor"
         app:layout_constraintStart_toStartOf="@+id/textBtDeviceNameTitle"
@@ -116,7 +116,7 @@
         android:id="@+id/textUseGpsLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_inner"
+        android:layout_marginStart="@dimen/spacing_inner_small"
         android:layout_marginTop="@dimen/spacing_inner_small"
         android:text="Use location"
         android:textAppearance="@style/ListText"
@@ -133,41 +133,23 @@
         app:layout_constraintTop_toTopOf="@+id/textUseGpsLocation" />
 
     <TextView
-        android:id="@+id/textUseGpsSpeed"
+        android:id="@+id/textUseGpsSpeedDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_inner_small"
         android:layout_marginTop="@dimen/spacing_inner_small"
-        android:text="Use GPS for speed"
+        android:text="Use GPS for speed and distance"
         android:textAppearance="@style/ListText"
         app:layout_constraintStart_toStartOf="@+id/textUseGpsLocation"
         app:layout_constraintTop_toBottomOf="@+id/textUseGpsLocation" />
 
     <Switch
-        android:id="@+id/switchUseGpsSpeed"
+        android:id="@+id/switchUseGpsSpeedDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/ListText"
-        app:layout_constraintBottom_toBottomOf="@+id/textUseGpsSpeed"
+        app:layout_constraintBottom_toBottomOf="@+id/textUseGpsSpeedDistance"
         app:layout_constraintEnd_toEndOf="@+id/switchUseGpsLocation"
-        app:layout_constraintTop_toTopOf="@+id/textUseGpsSpeed" />
-
-    <TextView
-        android:id="@+id/textUseGpsDistance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_inner_small"
-        android:text="Use GPS for distance"
-        android:textAppearance="@style/ListText"
-        app:layout_constraintStart_toStartOf="@+id/textUseGpsSpeed"
-        app:layout_constraintTop_toBottomOf="@+id/textUseGpsSpeed" />
-
-    <Switch
-        android:id="@+id/switchUseGpsDistance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/ListText"
-        app:layout_constraintBottom_toBottomOf="@+id/textUseGpsDistance"
-        app:layout_constraintEnd_toEndOf="@+id/switchUseGpsSpeed"
-        app:layout_constraintTop_toTopOf="@+id/textUseGpsDistance" />
+        app:layout_constraintTop_toTopOf="@+id/textUseGpsSpeedDistance" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
