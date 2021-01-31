@@ -9,6 +9,17 @@
     <string name="button_start">Start</string>
     <string name="button_config_sensors">Configure sensors</string>
 
+    <string name="sensor_location_title">Location:</string>
+    <string name="sensor_location_latitude_value">00.000000° N</string>
+    <string name="sensor_location_longitude_value">00.000000° E</string>
+    <string name="sensor_location_accuracy_value">+/- 00.00 m</string>
+
+
+    <string name="sensor_speed_title">Speed:</string>
+    <string name="sensor_speed_value">00.0 km/h</string>
+    <string name="sensor_distance_title">Distance:</string>
+    <string name="sensor_distance_value">000.000 km</string>
+
     <!-- Strings for CloseAppOnErrorDialog -->
     <string name="dialog_close_app_bt_not_supported">Bluetooth is not supported on this device!</string>
 
@@ -20,4 +31,8 @@
     <string name="bt_device_as_sensor_title">Use as sensor</string>
     <string name="avail_bt_devices_item_default">No devices paired!</string>
     <string name="button_bt_settings">Pair new devices</string>
+    <string name="add_sensors_title">Additional sensors:</string>
+    <string name="gps_title">GPS</string>
+    <string name="gps_use_location_title">Use location</string>
+    <string name="gps_use_speed_distance_title">Use GPS for speed and distance</string>
 </resources>

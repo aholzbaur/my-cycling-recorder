@@ -58,4 +58,85 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textLocationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_inner_small"
+        android:layout_marginTop="@dimen/spacing_inner_small"
+        android:text="@string/sensor_location_title"
+        android:textAppearance="@style/Text"
+        app:layout_constraintStart_toStartOf="@+id/textActiveSensorsTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textActiveSensorsTitle" />
+
+    <TextView
+        android:id="@+id/textLatitudeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner_small"
+        android:layout_marginEnd="@dimen/spacing_inner_small"
+        android:text="@string/sensor_location_latitude_value"
+        android:textAppearance="@style/ListText"
+        app:layout_constraintEnd_toStartOf="@+id/textLongitudeValue"
+        app:layout_constraintTop_toBottomOf="@+id/textLocationTitle" />
+
+    <TextView
+        android:id="@+id/textLongitudeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_inner_small"
+        android:text="@string/sensor_location_longitude_value"
+        android:textAppearance="@style/ListText"
+        app:layout_constraintEnd_toStartOf="@+id/textAccuracyValue"
+        app:layout_constraintTop_toTopOf="@+id/textLatitudeValue" />
+
+    <TextView
+        android:id="@+id/textAccuracyValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sensor_location_accuracy_value"
+        android:textAppearance="@style/ListText"
+        app:layout_constraintEnd_toEndOf="@+id/textBtStatusValue"
+        app:layout_constraintTop_toTopOf="@+id/textLongitudeValue" />
+
+    <TextView
+        android:id="@+id/textSpeedTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner"
+        android:text="@string/sensor_speed_title"
+        android:textAppearance="@style/Text"
+        app:layout_constraintStart_toStartOf="@+id/textLocationTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textAccuracyValue" />
+
+    <TextView
+        android:id="@+id/textSpeedValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner_small"
+        android:text="@string/sensor_speed_value"
+        android:textAppearance="@style/ListText"
+        app:layout_constraintEnd_toEndOf="@+id/textAccuracyValue"
+        app:layout_constraintTop_toBottomOf="@+id/textSpeedTitle" />
+
+    <TextView
+        android:id="@+id/textDistanceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner"
+        android:text="@string/sensor_distance_title"
+        android:textAppearance="@style/Text"
+        app:layout_constraintStart_toStartOf="@+id/textSpeedTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textSpeedValue" />
+
+    <TextView
+        android:id="@+id/textDistanceValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner_small"
+        android:text="@string/sensor_distance_value"
+        android:textAppearance="@style/ListText"
+        app:layout_constraintEnd_toEndOf="@+id/textSpeedValue"
+        app:layout_constraintTop_toBottomOf="@+id/textDistanceTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

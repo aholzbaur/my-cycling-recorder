@@ -14,32 +14,24 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import java.util.Set;
 
 import de.aholzbaur.mycyclingrecorder.R;
+import de.aholzbaur.mycyclingrecorder.data.Settings;
 
 public class ConfigSensorsActivity extends AppCompatActivity {
+    private ConstraintLayout constraintLayout = null;
+
     private TextView textBtDisabledHint = null;
     private TextView textBtDeviceNameTitle = null;
     private TextView textBtDeviceAsSensor = null;
-    private TextView textAddSensorsTitle = null;
-    private TextView textGpsTitle = null;
-    private TextView textUseGpsLocation = null;
-    private TextView textUseGpsSpeedDistance = null;
-
-    private Switch switchUseGpsLocation = null;
-    private CompoundButton.OnCheckedChangeListener switchUseGpsLocationOnCheckedListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            switchUseGpsSpeedDistance.setEnabled(isChecked);
-        }
-    };
-    private Switch switchUseGpsSpeedDistance = null;
 
     private ScrollView scrollAvailBtDeviceList = null;
     private LinearLayout scrollAvailBtDeviceListLayout = null;
@@ -57,13 +49,37 @@ public class ConfigSensorsActivity extends AppCompatActivity {
             showBtSettings();
         }
     };
+
+    private TextView textAddSensorsTitle = null;
+    private TextView textGpsTitle = null;
+    private TextView textUseGpsLocation = null;
+
+    private SwitchCompat switchUseGpsLocation = null;
+    private CompoundButton.OnCheckedChangeListener switchUseGpsLocationOnCheckedListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            switchUseGpsSpeedDistance.setEnabled(isChecked);
+            updateSettings();
+        }
+    };
+    private TextView textUseGpsSpeedDistance = null;
+    private SwitchCompat switchUseGpsSpeedDistance = null;
+    private CompoundButton.OnCheckedChangeListener switchUseGpsSpeedDistanceOnCheckedListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            updateSettings();
+        }
+    };
+
     private BluetoothAdapter bluetoothAdapter = null;
+
+    private Settings settings = Settings.getInstance();
 
     private BroadcastReceiver btStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                configBtSensorsViews();
+                configViews();
             }
         }
     };
@@ -75,35 +91,40 @@ public class ConfigSensorsActivity extends AppCompatActivity {
 
         this.getItems();
 
-        this.configBtSensorsViews();
+        this.configViews();
 
         this.registerReceiver(this.btStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
     }
 
     private void getItems() {
-        this.textBtDisabledHint = this.findViewById(R.id.textBtDisabledHint);
-        this.textBtDeviceNameTitle = this.findViewById(R.id.textBtDeviceNameTitle);
-        this.textBtDeviceAsSensor = this.findViewById(R.id.textBtDeviceAsSensor);
-        this.textAddSensorsTitle = this.findViewById(R.id.textAddSensorsTitle);
-        this.textGpsTitle = this.findViewById(R.id.textGpsTitle);
-        this.textUseGpsLocation = this.findViewById(R.id.textUseGpsLocation);
-        this.textUseGpsSpeedDistance = this.findViewById(R.id.textUseGpsSpeedDistance);
+        this.constraintLayout = (ConstraintLayout) this.findViewById(R.id.constraintLayout);
 
-        this.switchUseGpsLocation = this.findViewById(R.id.switchUseGpsLocation);
-        this.switchUseGpsLocation.setOnCheckedChangeListener(this.switchUseGpsLocationOnCheckedListener);
-        this.switchUseGpsSpeedDistance = this.findViewById(R.id.switchUseGpsSpeedDistance);
-        this.switchUseGpsSpeedDistance.setEnabled(this.switchUseGpsLocation.isChecked());
+        this.textBtDisabledHint = (TextView) this.findViewById(R.id.textBtDisabledHint);
+        this.textBtDeviceNameTitle = (TextView) this.findViewById(R.id.textBtDeviceNameTitle);
+        this.textBtDeviceAsSensor = (TextView) this.findViewById(R.id.textBtDeviceAsSensor);
 
-        this.scrollAvailBtDeviceList = this.findViewById(R.id.scrollAvailBtDeviceList);
-        this.scrollAvailBtDeviceListLayout = this.findViewById(R.id.scrollAvailBtDeviceListLayout);
+        this.scrollAvailBtDeviceList = (ScrollView) this.findViewById(R.id.scrollAvailBtDeviceList);
+        this.scrollAvailBtDeviceListLayout = (LinearLayout) this.findViewById(R.id.scrollAvailBtDeviceListLayout);
 
-        this.buttonEnableBt = this.findViewById(R.id.buttonEnableBt);
+        this.buttonEnableBt = (Button) this.findViewById(R.id.buttonEnableBt);
         this.buttonEnableBt.setOnClickListener(this.buttonEnableBtOnClickListener);
-        this.buttonBtSettings = this.findViewById(R.id.buttonBtSettings);
+        this.buttonBtSettings = (Button) this.findViewById(R.id.buttonBtSettings);
         this.buttonBtSettings.setOnClickListener(this.buttonBtSettingsOnClickListener);
+
+        this.textAddSensorsTitle = (TextView) this.findViewById(R.id.textAddSensorsTitle);
+        this.textGpsTitle = (TextView) this.findViewById(R.id.textGpsTitle);
+        this.textUseGpsLocation = (TextView) this.findViewById(R.id.textUseGpsLocation);
+        this.switchUseGpsLocation = (SwitchCompat) this.findViewById(R.id.switchUseGpsLocation);
+        this.switchUseGpsLocation.setChecked(this.settings.isUseGpsLocation());
+        this.switchUseGpsLocation.setOnCheckedChangeListener(this.switchUseGpsLocationOnCheckedListener);
+        this.textUseGpsSpeedDistance = (TextView) this.findViewById(R.id.textUseGpsSpeedDistance);
+        this.switchUseGpsSpeedDistance = (SwitchCompat) this.findViewById(R.id.switchUseGpsSpeedDistance);
+        this.switchUseGpsSpeedDistance.setChecked(this.settings.isUseGpsSpeedDistance());
+        this.switchUseGpsSpeedDistance.setEnabled(this.switchUseGpsLocation.isChecked());
+        this.switchUseGpsSpeedDistance.setOnCheckedChangeListener(this.switchUseGpsSpeedDistanceOnCheckedListener);
     }
 
-    private void configBtSensorsViews() {
+    private void configViews() {
         this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (this.bluetoothAdapter.isEnabled() == false) {
@@ -113,12 +134,11 @@ public class ConfigSensorsActivity extends AppCompatActivity {
             this.textBtDeviceAsSensor.setVisibility(View.GONE);
             this.scrollAvailBtDeviceList.setVisibility(View.GONE);
             this.buttonBtSettings.setVisibility(View.GONE);
-            this.textAddSensorsTitle.setVisibility(View.GONE);
-            this.textGpsTitle.setVisibility(View.GONE);
-            this.textUseGpsLocation.setVisibility(View.GONE);
-            this.textUseGpsSpeedDistance.setVisibility(View.GONE);
-            this.switchUseGpsLocation.setVisibility(View.GONE);
-            this.switchUseGpsSpeedDistance.setVisibility(View.GONE);
+
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(this.constraintLayout);
+            constraintSet.connect(R.id.textAddSensorsTitle, ConstraintSet.TOP, R.id.buttonEnableBt, ConstraintSet.BOTTOM);
+            constraintSet.applyTo(this.constraintLayout);
         } else {
             this.textBtDisabledHint.setVisibility(View.GONE);
             this.buttonEnableBt.setVisibility(View.GONE);
@@ -126,14 +146,13 @@ public class ConfigSensorsActivity extends AppCompatActivity {
             this.textBtDeviceAsSensor.setVisibility(View.VISIBLE);
             this.scrollAvailBtDeviceList.setVisibility(View.VISIBLE);
             this.buttonBtSettings.setVisibility(View.VISIBLE);
-            this.textAddSensorsTitle.setVisibility(View.VISIBLE);
-            this.textGpsTitle.setVisibility(View.VISIBLE);
-            this.textUseGpsLocation.setVisibility(View.VISIBLE);
-            this.textUseGpsSpeedDistance.setVisibility(View.VISIBLE);
-            this.switchUseGpsLocation.setVisibility(View.VISIBLE);
-            this.switchUseGpsSpeedDistance.setVisibility(View.VISIBLE);
 
-            fillAvailBtDevicesList();
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(this.constraintLayout);
+            constraintSet.connect(R.id.textAddSensorsTitle, ConstraintSet.TOP, R.id.buttonBtSettings, ConstraintSet.BOTTOM);
+            constraintSet.applyTo(this.constraintLayout);
+
+            this.fillAvailBtDevicesList();
         }
     }
 
@@ -173,6 +192,23 @@ public class ConfigSensorsActivity extends AppCompatActivity {
         ComponentName openBtSettingsCn = new ComponentName("com.android.settings", "com.android.settings.bluetooth.BluetoothSettings");
         openBtSettingsIntent.setComponent(openBtSettingsCn);
         openBtSettingsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(openBtSettingsIntent);
+        this.startActivity(openBtSettingsIntent);
+    }
+
+    private void updateSettings() {
+        if (this.switchUseGpsLocation.isChecked() == true) {
+            this.settings.setUseGpsLocation(true);
+            this.settings.setUseGpsSpeedDistance(this.switchUseGpsSpeedDistance.isChecked());
+        } else {
+            this.settings.setUseGpsLocation(false);
+            this.settings.setUseGpsSpeedDistance(false);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        this.unregisterReceiver(this.btStateReceiver);
     }
 }
