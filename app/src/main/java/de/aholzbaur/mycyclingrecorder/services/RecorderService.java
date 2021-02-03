@@ -9,13 +9,18 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class RecorderService extends Service {
-    protected final int MESSAGE_START_RECORDING = 1;
+    private static final String TAG = RecorderService.class.getSimpleName();
+
+    private static final int MSG_ID_START_RECORDING = 1;
+    private static final int MSG_ID_STOP_RECORDING = 2;
+    private static final int MSG_ID_NEXT_RECORDING = 3;
 
     private HandlerThread handlerThread = null;
     private Looper looper = null;
@@ -23,6 +28,7 @@ public class RecorderService extends Service {
 
     private class RecorderHandler extends Handler {
         private Context context = null;
+        private int count = 0;
 
         public RecorderHandler(Looper looper, Context context) {
             super(looper);
@@ -31,25 +37,27 @@ public class RecorderService extends Service {
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            if (msg.arg1 == MESSAGE_START_RECORDING) {
-                Toast.makeText(this.context, "Service starts recording", Toast.LENGTH_SHORT).show();
-
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                Toast.makeText(this.context, "Service stopped recording", Toast.LENGTH_SHORT).show();
-
+            if (msg.what == RecorderService.MSG_ID_START_RECORDING) {
+                Log.w(RecorderService.TAG, "start recording");
+                this.sendEmptyMessageDelayed(RecorderService.MSG_ID_NEXT_RECORDING, 1000);
+            } else if (msg.what == RecorderService.MSG_ID_STOP_RECORDING) {
+                Log.w(RecorderService.TAG, "stop recording");
                 stopSelf();
+            } else if (msg.what == RecorderService.MSG_ID_NEXT_RECORDING) {
+                Log.w(RecorderService.TAG, "next recording");
+                if (this.count > 10) {
+                    this.sendEmptyMessageDelayed(RecorderService.MSG_ID_STOP_RECORDING, 1000);
+                } else {
+                    this.count++;
+                    this.sendEmptyMessageDelayed(RecorderService.MSG_ID_NEXT_RECORDING, 1000);
+                }
             }
         }
     }
 
     @Override
     public void onCreate() {
-        this.handlerThread = new HandlerThread("RecorderThread", Process.THREAD_PRIORITY_BACKGROUND);
+        this.handlerThread = new HandlerThread(RecorderService.TAG, Process.THREAD_PRIORITY_BACKGROUND);
         this.handlerThread.start();
 
         this.looper = this.handlerThread.getLooper();
@@ -58,11 +66,16 @@ public class RecorderService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Message msg = this.recorderHandler.obtainMessage();
-        msg.arg1 = MESSAGE_START_RECORDING;
-        this.recorderHandler.sendMessage(msg);
+        Toast.makeText(this, "StartCommand", Toast.LENGTH_SHORT).show();
 
-        return START_STICKY;
+        this.recorderHandler.sendEmptyMessage(RecorderService.MSG_ID_START_RECORDING);
+
+        return Service.START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        Toast.makeText(this, "Destroy", Toast.LENGTH_SHORT).show();
     }
 
     @Nullable
