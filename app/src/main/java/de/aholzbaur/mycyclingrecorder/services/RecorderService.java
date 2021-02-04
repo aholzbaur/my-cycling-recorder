@@ -10,7 +10,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,30 +26,19 @@ public class RecorderService extends Service {
     private RecorderHandler recorderHandler = null;
 
     private class RecorderHandler extends Handler {
-        private Context context = null;
-        private int count = 0;
-
         public RecorderHandler(Looper looper, Context context) {
             super(looper);
-            this.context = context;
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == RecorderService.MSG_ID_START_RECORDING) {
-                Log.w(RecorderService.TAG, "start recording");
-                this.sendEmptyMessageDelayed(RecorderService.MSG_ID_NEXT_RECORDING, 1000);
+                this.sendEmptyMessage(RecorderService.MSG_ID_NEXT_RECORDING);
             } else if (msg.what == RecorderService.MSG_ID_STOP_RECORDING) {
-                Log.w(RecorderService.TAG, "stop recording");
-                stopSelf();
+                this.getLooper().quitSafely();
             } else if (msg.what == RecorderService.MSG_ID_NEXT_RECORDING) {
-                Log.w(RecorderService.TAG, "next recording");
-                if (this.count > 10) {
-                    this.sendEmptyMessageDelayed(RecorderService.MSG_ID_STOP_RECORDING, 1000);
-                } else {
-                    this.count++;
-                    this.sendEmptyMessageDelayed(RecorderService.MSG_ID_NEXT_RECORDING, 1000);
-                }
+                Log.v(RecorderService.TAG, "next recording");
+                this.sendEmptyMessageDelayed(RecorderService.MSG_ID_NEXT_RECORDING, 1000);
             }
         }
     }
@@ -66,8 +54,6 @@ public class RecorderService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "StartCommand", Toast.LENGTH_SHORT).show();
-
         this.recorderHandler.sendEmptyMessage(RecorderService.MSG_ID_START_RECORDING);
 
         return Service.START_STICKY;
@@ -75,7 +61,9 @@ public class RecorderService extends Service {
 
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "Destroy", Toast.LENGTH_SHORT).show();
+        this.recorderHandler.sendEmptyMessage(RecorderService.MSG_ID_STOP_RECORDING);
+
+        super.onDestroy();
     }
 
     @Nullable

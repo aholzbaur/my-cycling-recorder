@@ -6,7 +6,6 @@
     <string name="bt_status_on">On</string>
     <string name="bt_status_off">Off</string>
     <string name="active_sensors_title">Active sensors:</string>
-    <string name="button_start">Start</string>
     <string name="button_config_sensors">Configure sensors</string>
 
     <string name="sensor_location_title">Location:</string>
@@ -19,6 +18,9 @@
     <string name="sensor_speed_value">00.0 km/h</string>
     <string name="sensor_distance_title">Distance:</string>
     <string name="sensor_distance_value">000.000 km</string>
+
+    <string name="button_start">Start</string>
+    <string name="button_stop">Stop</string>
 
     <!-- Strings for CloseAppOnErrorDialog -->
     <string name="dialog_close_app_bt_not_supported">Bluetooth is not supported on this device!</string>

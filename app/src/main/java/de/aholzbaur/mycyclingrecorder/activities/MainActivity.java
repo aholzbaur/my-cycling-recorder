@@ -48,6 +48,13 @@ public class MainActivity extends AppCompatActivity {
             startRecorderService();
         }
     };
+    private Button buttonStop = null;
+    private View.OnClickListener buttonStopOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            pauseRecorderService();
+        }
+    };
 
     private BluetoothAdapter bluetoothAdapter = null;
 
@@ -95,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
         this.buttonStart = (Button) this.findViewById(R.id.buttonStart);
         this.buttonStart.setOnClickListener(this.buttonStartOnClickListener);
+        this.buttonStop = (Button) this.findViewById(R.id.buttonStop);
+        this.buttonStop.setOnClickListener(this.buttonStopOnClickListener);
+        this.buttonStop.setVisibility(View.GONE);
     }
 
     private void configViews() {
@@ -151,6 +161,16 @@ public class MainActivity extends AppCompatActivity {
     private void startRecorderService() {
         this.intentRecorderService = new Intent(this, RecorderService.class);
         this.startService(this.intentRecorderService);
+
+        this.buttonStart.setVisibility(View.GONE);
+        this.buttonStop.setVisibility(View.VISIBLE);
+    }
+
+    private void pauseRecorderService() {
+        this.stopService(this.intentRecorderService);
+
+        this.buttonStop.setVisibility(View.GONE);
+        this.buttonStart.setVisibility(View.VISIBLE);
     }
 
     @Override
