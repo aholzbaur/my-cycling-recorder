@@ -2,132 +2,107 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <TextView
-        android:id="@+id/textBtStatusTitle"
+        android:id="@+id/textTitleLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_outer"
         android:layout_marginTop="@dimen/spacing_outer"
-        android:text="@string/bt_status_title"
-        android:textAppearance="@style/Titles"
+        android:text="@string/title_location"
+        android:textAppearance="@style/Title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textBtStatusValue"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchUseLocation"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_inner"
         android:layout_marginEnd="@dimen/spacing_outer"
-        android:text="@string/bt_status_off"
-        android:textAppearance="@style/TitlesBold"
+        android:text="@string/switch_use_location"
+        android:textAppearance="@style/Switch"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textBtStatusTitle" />
+        app:layout_constraintStart_toStartOf="@+id/textTitleLocation"
+        app:layout_constraintTop_toBottomOf="@+id/textTitleLocation" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchUseLocationSpeed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_inner"
+        android:text="@string/switch_use_location_speed"
+        android:textAppearance="@style/Switch"
+        app:layout_constraintEnd_toEndOf="@+id/switchUseLocation"
+        app:layout_constraintStart_toStartOf="@+id/switchUseLocation"
+        app:layout_constraintTop_toBottomOf="@+id/switchUseLocation" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchUseLocationDistance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/switch_use_location_distance"
+        android:textAppearance="@style/Switch"
+        app:layout_constraintEnd_toEndOf="@+id/switchUseLocationSpeed"
+        app:layout_constraintStart_toStartOf="@+id/switchUseLocationSpeed"
+        app:layout_constraintTop_toBottomOf="@+id/switchUseLocationSpeed" />
 
     <TextView
-        android:id="@+id/textActiveSensorsTitle"
+        android:id="@+id/textTitleSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_inner"
-        android:text="@string/active_sensors_title"
-        android:textAppearance="@style/Titles"
-        app:layout_constraintStart_toStartOf="@+id/textBtStatusTitle"
-        app:layout_constraintTop_toBottomOf="@+id/buttonConfigSensors" />
+        android:text="@string/title_speed_sensor"
+        android:textAppearance="@style/Title"
+        app:layout_constraintStart_toStartOf="@+id/textTitleLocation"
+        app:layout_constraintTop_toBottomOf="@+id/switchUseLocationDistance" />
 
-    <Button
-        android:id="@+id/buttonConfigSensors"
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchUseSpeed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_inner"
+        android:text="@string/switch_use_speed_sensor"
+        android:textAppearance="@style/Switch"
+        app:layout_constraintEnd_toEndOf="@+id/switchUseLocationSpeed"
+        app:layout_constraintStart_toStartOf="@+id/textTitleSpeed"
+        app:layout_constraintTop_toBottomOf="@+id/textTitleSpeed" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchUseSpeedDistance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_inner"
+        android:text="@string/switch_use_speed_distance"
+        android:textAppearance="@style/Switch"
+        app:layout_constraintEnd_toEndOf="@+id/switchUseSpeed"
+        app:layout_constraintStart_toStartOf="@+id/switchUseSpeed"
+        app:layout_constraintTop_toBottomOf="@+id/switchUseSpeed" />
+
+    <TextView
+        android:id="@+id/textTitleCadence"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_inner"
-        android:text="@string/button_config_sensors"
-        android:textAppearance="@style/Buttons"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textBtStatusTitle" />
+        android:text="@string/title_cadence_sensor"
+        android:textAppearance="@style/Title"
+        app:layout_constraintStart_toStartOf="@+id/textTitleSpeed"
+        app:layout_constraintTop_toBottomOf="@+id/switchUseSpeedDistance" />
 
-    <TextView
-        android:id="@+id/textLocationTitle"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchUseCademce"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_inner_small"
-        android:layout_marginTop="@dimen/spacing_inner_small"
-        android:text="@string/sensor_location_title"
-        android:textAppearance="@style/Text"
-        app:layout_constraintStart_toStartOf="@+id/textActiveSensorsTitle"
-        app:layout_constraintTop_toBottomOf="@+id/textActiveSensorsTitle" />
-
-    <TextView
-        android:id="@+id/textLatitudeValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_inner_small"
-        android:layout_marginEnd="@dimen/spacing_inner_small"
-        android:text="@string/sensor_location_latitude_value"
-        android:textAppearance="@style/ListText"
-        app:layout_constraintEnd_toStartOf="@+id/textLongitudeValue"
-        app:layout_constraintTop_toBottomOf="@+id/textLocationTitle" />
-
-    <TextView
-        android:id="@+id/textLongitudeValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_inner_small"
-        android:text="@string/sensor_location_longitude_value"
-        android:textAppearance="@style/ListText"
-        app:layout_constraintEnd_toStartOf="@+id/textAccuracyValue"
-        app:layout_constraintTop_toTopOf="@+id/textLatitudeValue" />
-
-    <TextView
-        android:id="@+id/textAccuracyValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sensor_location_accuracy_value"
-        android:textAppearance="@style/ListText"
-        app:layout_constraintEnd_toEndOf="@+id/textBtStatusValue"
-        app:layout_constraintTop_toTopOf="@+id/textLongitudeValue" />
-
-    <TextView
-        android:id="@+id/textSpeedTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_inner"
-        android:text="@string/sensor_speed_title"
-        android:textAppearance="@style/Text"
-        app:layout_constraintStart_toStartOf="@+id/textLocationTitle"
-        app:layout_constraintTop_toBottomOf="@+id/textAccuracyValue" />
-
-    <TextView
-        android:id="@+id/textSpeedValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_inner_small"
-        android:text="@string/sensor_speed_value"
-        android:textAppearance="@style/ListText"
-        app:layout_constraintEnd_toEndOf="@+id/textAccuracyValue"
-        app:layout_constraintTop_toBottomOf="@+id/textSpeedTitle" />
-
-    <TextView
-        android:id="@+id/textDistanceTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_inner"
-        android:text="@string/sensor_distance_title"
-        android:textAppearance="@style/Text"
-        app:layout_constraintStart_toStartOf="@+id/textSpeedTitle"
-        app:layout_constraintTop_toBottomOf="@+id/textSpeedValue" />
-
-    <TextView
-        android:id="@+id/textDistanceValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_inner_small"
-        android:text="@string/sensor_distance_value"
-        android:textAppearance="@style/ListText"
-        app:layout_constraintEnd_toEndOf="@+id/textSpeedValue"
-        app:layout_constraintTop_toBottomOf="@+id/textDistanceTitle" />
+        android:layout_marginStart="@dimen/spacing_inner"
+        android:text="@string/switch_use_cadence_sensor"
+        android:textAppearance="@style/Switch"
+        app:layout_constraintEnd_toEndOf="@+id/switchUseSpeedDistance"
+        app:layout_constraintStart_toStartOf="@+id/textTitleCadence"
+        app:layout_constraintTop_toBottomOf="@+id/textTitleCadence" />
 
     <Button
         android:id="@+id/buttonStart"
@@ -135,18 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_bottom"
         android:text="@string/button_start"
-        android:textAppearance="@style/ButtonsLarge"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonStop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_bottom"
-        android:text="@string/button_stop"
-        android:textAppearance="@style/ButtonsLarge"
+        android:textAppearance="@style/Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
