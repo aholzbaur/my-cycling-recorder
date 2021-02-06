@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MyCyclingRecorder</string>
-    <string name="title_location">Sensor: Location</string>
+    <string name="title_location">Sensor: Location (GPS)</string>
     <string name="switch_use_location">Use location</string>
     <string name="switch_use_location_speed">Use location for speed</string>
     <string name="switch_use_location_distance">Use location for distance</string>
