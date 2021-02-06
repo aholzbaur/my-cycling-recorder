@@ -6,7 +6,7 @@
     </style>
 
     <style name="Button" parent="TextAppearance.AppCompat.Large">
-        <item name="android:textSize">28dp</item>
+        <item name="android:textSize">32dp</item>
     </style>
 
     <style name="Switch" parent="TextAppearance.AppCompat.Medium">
