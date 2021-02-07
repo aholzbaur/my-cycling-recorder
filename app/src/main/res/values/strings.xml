@@ -1,4 +1,5 @@
 <resources>
+    <!-- activity_main -->
     <string name="app_name">MyCyclingRecorder</string>
     <string name="title_location">Sensor: Location (GPS)</string>
     <string name="switch_use_location">Use location</string>
@@ -11,7 +12,22 @@
     <string name="switch_use_cadence_sensor">Use cadence sensor</string>
 
     <string name="button_start">Start</string>
+
+    <!-- activity_recording -->
+    <string name="title_current_recording">Current recording:</string>
+    <string name="title_duration_value">Duration:</string>
+    <string name="duration_value">00 h 00 m 00 s</string>
+    <string name="title_location_value">Location:</string>
+    <string name="location_latitude_value">00,00000 ° N</string>
+    <string name="location_longitude_value">00,00000 ° E</string>
+    <string name="location_accuracy_value">+/- 000 m</string>
+    <string name="title_distance_value">Distance:</string>
+    <string name="distance_value">00,00 km</string>
+    <string name="title_speed_value">Speed:</string>
+    <string name="speed_value">00,0 km/h</string>
+    <string name="title_cadence_value">Cadence:</string>
+    <string name="cadence_value">000 min-1</string>
     <string name="button_pause">Pause</string>
-    <string name="button_resume">Resume</string>
     <string name="button_finish">Finish</string>
+    <string name="button_resume">Resume</string>
 </resources>

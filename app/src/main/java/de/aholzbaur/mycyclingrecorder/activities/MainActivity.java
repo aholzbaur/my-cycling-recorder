@@ -109,16 +109,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getItems() {
-        this.switchUseLocation = this.findViewById(R.id.switchUseLocation);
-        this.switchUseLocationDistance = this.findViewById(R.id.switchUseLocationDistance);
-        this.switchUseLocationSpeed = this.findViewById(R.id.switchUseLocationSpeed);
+        this.switchUseLocation = (SwitchCompat) this.findViewById(R.id.switchUseLocation);
+        this.switchUseLocationDistance = (SwitchCompat) this.findViewById(R.id.switchUseLocationDistance);
+        this.switchUseLocationSpeed = (SwitchCompat) this.findViewById(R.id.switchUseLocationSpeed);
 
-        this.switchUseSpeed = this.findViewById(R.id.switchUseSpeed);
-        this.switchUseSpeedDistance = this.findViewById(R.id.switchUseSpeedDistance);
+        this.switchUseSpeed = (SwitchCompat) this.findViewById(R.id.switchUseSpeed);
+        this.switchUseSpeedDistance = (SwitchCompat) this.findViewById(R.id.switchUseSpeedDistance);
 
-        this.switchUseCadence = this.findViewById(R.id.switchUseCadence);
+        this.switchUseCadence = (SwitchCompat) this.findViewById(R.id.switchUseCadence);
 
-        this.buttonStart = this.findViewById(R.id.buttonStart);
+        this.buttonStart = (Button) this.findViewById(R.id.buttonStart);
     }
 
     private void initItems() {

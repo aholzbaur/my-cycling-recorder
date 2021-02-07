@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="spacing_outer_horizontal">30dp</dimen>
-    <dimen name="spacing_outer_top">16dp</dimen>
+    <dimen name="spacing_outer_horizontal">32dp</dimen>
+    <dimen name="spacing_outer_top">20dp</dimen>
     <dimen name="spacing_outer_bottom">36dp</dimen>
-    <dimen name="spacing_inner">20dp</dimen>
+    <dimen name="spacing_inner">24dp</dimen>
     <dimen name="spacing_inner_small">8dp</dimen>
 </resources>

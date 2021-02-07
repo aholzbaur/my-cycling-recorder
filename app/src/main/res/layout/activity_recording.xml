@@ -6,6 +6,134 @@
     android:layout_height="match_parent"
     tools:context=".activities.RecordingActivity">
 
+    <TextView
+        android:id="@+id/textTitleCurrentRecording"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_outer_horizontal"
+        android:layout_marginTop="@dimen/spacing_outer_top"
+        android:text="@string/title_current_recording"
+        android:textAppearance="@style/Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textTitleDurationValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_inner"
+        android:layout_marginTop="@dimen/spacing_inner"
+        android:text="@string/title_duration_value"
+        android:textAppearance="@style/Values"
+        app:layout_constraintStart_toStartOf="@+id/textTitleCurrentRecording"
+        app:layout_constraintTop_toBottomOf="@+id/textTitleCurrentRecording" />
+
+    <TextView
+        android:id="@+id/textDurationValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_outer_horizontal"
+        android:text="@string/duration_value"
+        android:textAppearance="@style/Values"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textTitleDurationValue" />
+
+    <TextView
+        android:id="@+id/textTitleDistanceValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner"
+        android:text="@string/title_distance_value"
+        android:textAppearance="@style/Values"
+        app:layout_constraintStart_toStartOf="@+id/textTitleLocationValue"
+        app:layout_constraintTop_toBottomOf="@+id/textLocationAccuracyValue" />
+
+    <TextView
+        android:id="@+id/textDistanceValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/distance_value"
+        android:textAppearance="@style/Values"
+        app:layout_constraintEnd_toEndOf="@+id/textLocationAccuracyValue"
+        app:layout_constraintTop_toTopOf="@+id/textTitleDistanceValue" />
+
+    <TextView
+        android:id="@+id/textTitleSpeedValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner"
+        android:text="@string/title_speed_value"
+        android:textAppearance="@style/Values"
+        app:layout_constraintStart_toStartOf="@+id/textTitleDistanceValue"
+        app:layout_constraintTop_toBottomOf="@+id/textTitleDistanceValue" />
+
+    <TextView
+        android:id="@+id/textSpeedValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/speed_value"
+        android:textAppearance="@style/Values"
+        app:layout_constraintEnd_toEndOf="@+id/textDistanceValue"
+        app:layout_constraintTop_toTopOf="@+id/textTitleSpeedValue" />
+
+    <TextView
+        android:id="@+id/textTitleCadenceValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner"
+        android:text="@string/title_cadence_value"
+        android:textAppearance="@style/Values"
+        app:layout_constraintStart_toStartOf="@+id/textTitleSpeedValue"
+        app:layout_constraintTop_toBottomOf="@+id/textTitleSpeedValue" />
+
+    <TextView
+        android:id="@+id/textCadenceValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cadence_value"
+        android:textAppearance="@style/Values"
+        app:layout_constraintEnd_toEndOf="@+id/textSpeedValue"
+        app:layout_constraintTop_toTopOf="@+id/textTitleCadenceValue" />
+
+    <TextView
+        android:id="@+id/textTitleLocationValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner"
+        android:text="@string/title_location_value"
+        android:textAppearance="@style/Values"
+        app:layout_constraintStart_toStartOf="@+id/textTitleDurationValue"
+        app:layout_constraintTop_toBottomOf="@+id/textTitleDurationValue" />
+
+    <TextView
+        android:id="@+id/textLocationLatitudeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location_latitude_value"
+        android:textAppearance="@style/Values"
+        app:layout_constraintEnd_toEndOf="@+id/textDurationValue"
+        app:layout_constraintTop_toTopOf="@+id/textTitleLocationValue" />
+
+    <TextView
+        android:id="@+id/textLocationLongitudeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner_small"
+        android:text="@string/location_longitude_value"
+        android:textAppearance="@style/Values"
+        app:layout_constraintEnd_toEndOf="@+id/textLocationLatitudeValue"
+        app:layout_constraintTop_toBottomOf="@+id/textLocationLatitudeValue" />
+
+    <TextView
+        android:id="@+id/textLocationAccuracyValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_inner_small"
+        android:text="@string/location_accuracy_value"
+        android:textAppearance="@style/Values"
+        app:layout_constraintEnd_toEndOf="@+id/textLocationLongitudeValue"
+        app:layout_constraintTop_toBottomOf="@+id/textLocationLongitudeValue" />
+
     <Button
         android:id="@+id/buttonPause"
         android:layout_width="wrap_content"
@@ -16,4 +144,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
