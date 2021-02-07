@@ -1,6 +1,7 @@
 package de.aholzbaur.mycyclingrecorder.activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener buttonStartListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            showRecordingActivity();
         }
     };
 
@@ -277,5 +278,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Bluetooth permissions denied", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void showRecordingActivity() {
+        Intent intent = new Intent(MainActivity.this, RecordingActivity.class);
+        startActivity(intent);
     }
 }

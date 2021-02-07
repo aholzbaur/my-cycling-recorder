@@ -114,7 +114,6 @@
         android:layout_marginBottom="@dimen/spacing_outer_bottom"
         android:text="@string/button_start"
         android:textAppearance="@style/Button"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
