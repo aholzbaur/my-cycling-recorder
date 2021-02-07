@@ -1,18 +1,23 @@
 package de.aholzbaur.mycyclingrecorder.activities;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import de.aholzbaur.mycyclingrecorder.R;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView textTitleLocation = null;
+    private static final int REQUEST_LOCATION_PERMISSIONS = 1;
+    private static final int REQUEST_BLUETOOTH_PERMISSIONS = 2;
+
     private SwitchCompat switchUseLocation = null;
     private final CompoundButton.OnCheckedChangeListener switchUseLocationListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
@@ -47,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private TextView textTitleSpeed = null;
     private SwitchCompat switchUseSpeed = null;
     private final CompoundButton.OnCheckedChangeListener switchUseSpeedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
@@ -71,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private TextView textTitleCadence = null;
     private SwitchCompat switchUseCadence = null;
     private final CompoundButton.OnCheckedChangeListener switchUseCadenceListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
@@ -105,16 +108,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getItems() {
-        this.textTitleLocation = this.findViewById(R.id.textTitleLocation);
         this.switchUseLocation = this.findViewById(R.id.switchUseLocation);
         this.switchUseLocationDistance = this.findViewById(R.id.switchUseLocationDistance);
         this.switchUseLocationSpeed = this.findViewById(R.id.switchUseLocationSpeed);
 
-        this.textTitleSpeed = this.findViewById(R.id.textTitleSpeed);
         this.switchUseSpeed = this.findViewById(R.id.switchUseSpeed);
         this.switchUseSpeedDistance = this.findViewById(R.id.switchUseSpeedDistance);
 
-        this.textTitleCadence = this.findViewById(R.id.textTitleCadence);
         this.switchUseCadence = this.findViewById(R.id.switchUseCadence);
 
         this.buttonStart = this.findViewById(R.id.buttonStart);
@@ -135,8 +135,6 @@ public class MainActivity extends AppCompatActivity {
 
         this.switchUseCadence.setChecked(false);
         this.switchUseCadence.setEnabled(true);
-
-        this.buttonStart.setEnabled(false);
     }
 
     private void setItemListeners() {
@@ -152,27 +150,15 @@ public class MainActivity extends AppCompatActivity {
         this.buttonStart.setOnClickListener(this.buttonStartListener);
     }
 
-    private void disableAllBtSensors() {
-        this.switchUseSpeed.setEnabled(false);
-        this.switchUseSpeed.setChecked(false);
-        this.switchUseSpeedDistance.setEnabled(false);
-        this.switchUseSpeedDistance.setChecked(false);
-
-        this.switchUseCadence.setEnabled(false);
-        this.switchUseCadence.setChecked(false);
-    }
-
-    private void enableAllBtSensors() {
-        this.switchUseSpeed.setEnabled(true);
-        this.switchUseSpeed.setChecked(false);
-        this.switchUseSpeedDistance.setEnabled(false);
-        this.switchUseSpeedDistance.setChecked(false);
-
-        this.switchUseCadence.setEnabled(true);
-        this.switchUseCadence.setChecked(false);
-    }
-
     private void enableUseLocation() {
+        if (this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MainActivity.REQUEST_LOCATION_PERMISSIONS);
+        } else {
+            this.enableUseLocationSwitches();
+        }
+    }
+
+    private void enableUseLocationSwitches() {
         if (this.switchUseSpeedDistance.isChecked() == false) {
             this.switchUseLocationDistance.setEnabled(true);
             this.switchUseLocationDistance.setChecked(false);
@@ -216,6 +202,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void enableUseSpeed() {
+        if (this.checkAndRequestBtPermissions() == true) {
+            this.enableUseSpeedSwitches();
+        }
+    }
+
+    private boolean checkAndRequestBtPermissions() {
+        if ((this.checkSelfPermission(Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) ||
+                (this.checkSelfPermission(Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) ||
+                (this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            this.requestPermissions(new String[]{Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.ACCESS_FINE_LOCATION}, MainActivity.REQUEST_BLUETOOTH_PERMISSIONS);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void enableUseSpeedSwitches() {
         if (this.switchUseLocationDistance.isChecked() == false) {
             this.switchUseSpeedDistance.setEnabled(true);
             this.switchUseSpeedDistance.setChecked(false);
@@ -248,10 +251,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void enableUseCadence() {
-
+        this.checkAndRequestBtPermissions();
     }
 
     private void disableUseCadence() {
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == MainActivity.REQUEST_LOCATION_PERMISSIONS) {
+            if ((grantResults.length == 1) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                this.enableUseLocationSwitches();
+            } else {
+                this.switchUseLocation.setChecked(false);
+                Toast.makeText(this, "Location permissions denied", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == MainActivity.REQUEST_BLUETOOTH_PERMISSIONS) {
+            if ((grantResults.length == 3) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    && (grantResults[1] == PackageManager.PERMISSION_GRANTED) && (grantResults[2] == PackageManager.PERMISSION_GRANTED)) {
+                this.enableUseSpeedSwitches();
+            } else {
+                this.switchUseSpeed.setChecked(false);
+                this.switchUseCadence.setChecked(false);
+                Toast.makeText(this, "Bluetooth permissions denied", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
