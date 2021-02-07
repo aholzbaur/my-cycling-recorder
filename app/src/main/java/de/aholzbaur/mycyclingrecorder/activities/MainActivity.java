@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import de.aholzbaur.mycyclingrecorder.R;
+import de.aholzbaur.mycyclingrecorder.data.Settings;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION_PERMISSIONS = 1;
@@ -95,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
             showRecordingActivity();
         }
     };
+
+    private Settings settings = Settings.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -281,6 +284,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showRecordingActivity() {
+        this.settings.setEnableLocation(this.switchUseLocation.isChecked());
+        if (this.switchUseLocationDistance.isChecked()) {
+            this.settings.setEnableDistance(true);
+            this.settings.setUseLocationForDistance(true);
+        } else if (this.switchUseSpeedDistance.isChecked()) {
+            this.settings.setEnableDistance(true);
+            this.settings.setUseLocationForDistance(false);
+        } else {
+            this.settings.setEnableDistance(false);
+        }
+        if (this.switchUseSpeed.isChecked()) {
+            this.settings.setEnableSpeed(true);
+            this.settings.setUseLocationForSpeed(false);
+        } else if (this.switchUseLocationSpeed.isChecked()) {
+            this.settings.setEnableSpeed(true);
+            this.settings.setUseLocationForSpeed(true);
+        } else {
+            this.settings.setEnableSpeed(false);
+        }
+        this.settings.setEnableCadence(this.switchUseCadence.isChecked());
+
         Intent intent = new Intent(MainActivity.this, RecordingActivity.class);
         startActivity(intent);
     }

@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import de.aholzbaur.mycyclingrecorder.R;
+import de.aholzbaur.mycyclingrecorder.data.Settings;
 
 public class RecordingActivity extends AppCompatActivity {
     private TextView textDurationValue = null;
@@ -26,12 +27,16 @@ public class RecordingActivity extends AppCompatActivity {
         }
     };
 
+    private Settings settings = Settings.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_recording);
 
         this.getItems();
+
+        this.initItems();
 
         this.setItemListeners();
     }
@@ -46,6 +51,38 @@ public class RecordingActivity extends AppCompatActivity {
         this.textCadenceValue = (TextView) this.findViewById(R.id.textCadenceValue);
 
         this.buttonPause = (Button) this.findViewById(R.id.buttonPause);
+    }
+
+    private void initItems() {
+        this.textDurationValue.setVisibility(View.VISIBLE);
+
+        if (this.settings.isEnableLocation() == true) {
+            this.textLocationLongitudeValue.setVisibility(View.VISIBLE);
+            this.textLocationLatitudeValue.setVisibility(View.VISIBLE);
+            this.textLocationAccuracyValue.setVisibility(View.VISIBLE);
+        } else {
+            this.textLocationLongitudeValue.setVisibility(View.INVISIBLE);
+            this.textLocationLatitudeValue.setVisibility(View.INVISIBLE);
+            this.textLocationAccuracyValue.setVisibility(View.INVISIBLE);
+        }
+
+        if (this.settings.isEnableDistance() == true) {
+            this.textDistanceValue.setVisibility(View.VISIBLE);
+        } else {
+            this.textDistanceValue.setVisibility(View.INVISIBLE);
+        }
+
+        if (this.settings.isEnableSpeed() == true) {
+            this.textSpeedValue.setVisibility(View.VISIBLE);
+        } else {
+            this.textSpeedValue.setVisibility(View.INVISIBLE);
+        }
+
+        if (this.settings.isEnableCadence() == true) {
+            this.textCadenceValue.setVisibility(View.VISIBLE);
+        } else {
+            this.textCadenceValue.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void setItemListeners() {
